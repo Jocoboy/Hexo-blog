@@ -89,7 +89,7 @@ FROM
         		WHERE b2.[column_a_id] = b.[column_a_id] 
                 AND b2.[column_3] = column_value
         	) 
-        	ORDER BY A.[column_2]
+        	ORDER BY a.[column_2]
         	LIMIT 1 FOR UPDATE OF b SKIP LOCKED
 ) AS t
 where  t."Id" = b."Id"  
