@@ -67,3 +67,6 @@ git获取远程分支内容
 
 `git push -f`
 
+## 参考文档
+
+[Git官方中文文档](https://git-scm.com/docs/git/zh_HANS-CN)
