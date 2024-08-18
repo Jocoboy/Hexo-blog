@@ -4,8 +4,9 @@ date: 2024-08-13 12:54:29
 categories:
 - Framework
 tags:
-- DDD
 - ABP
+- .NET
+- ASP.NET Core
 ---
 
 领域驱动设计核心概念与ABP框架实践。
@@ -14,11 +15,17 @@ tags:
 
 ## 前言
 
-ABP框架是对领域驱动设计DDD的一种实现，主要目标是为应用程序开发引入的一种架构方法。
+ABP框架基于.NET和ASP.NET Core，是对领域驱动设计(Domain Driven Design，简称DDD)的一种实现，主要目标是为应用程序开发引入的一种架构方法。
+
+> - .NET Framework仅支持Windows平台，适用于传统的Windows桌面和Web应用开发
+> - .NET Core是一个全新的、从头开发的.NET 实现，支持跨平台，适用于构建现代化的云原生应用、微服务、跨平台应用等
+> - .NET融合了.NET Core和.NET Framework的优点，支持跨平台，适用于各种类型的应用开发，包括桌面应用、Web 应用、云服务、移动应用等
+> - ASP.NET是一个Web应用程序开发框架，仅支持Windows平台，使用.NET Framework运行时
+> - ASP.NET Core是对ASP.NET的重构，更加轻量、高性能，支持跨平台，使用.NET Core运行时
 
 ## 领域驱动设计
 
-领域驱动设计(Domain Driven Design)是一种针对复杂需求的软件开发方法，它适用于复杂领域和大规模应用，关注核心领域逻辑而不是基础设施细节。
+领域驱动设计是一种针对复杂需求的软件开发方法，它适用于复杂领域和大规模应用，关注核心领域逻辑而不是基础设施细节。
 
 ### 基本分层
 
