@@ -2,7 +2,7 @@
 title: 基于Wix和AutoUpdater的客户端打包与自动更新
 date: 2024-08-19 18:46:44
 categories:
-- Software-Deployment
+- Package-Tool
 tags:
 - Wix Toolset
 - .NET
