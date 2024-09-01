@@ -4,7 +4,7 @@ date: 2024-08-30 19:45:42
 categories:
 - Database
 tags:
-- PGSQL
+- PostgreSQL
 - .NET
 - Concurrency Control
 ---
