@@ -81,7 +81,7 @@ git获取远程分支内容
 
 `git rebase --continue`
 
-若要重写所有历史commit中的授权用户和提交用户，可以使用`git filter-branch`编写批处理脚本，然后在git仓库根目录下运行即可。
+若要重写所有历史commit中的授权用户和提交用户，可以使用`git filter-branch`编写批处理脚本，
 
 ```sh
 # If you see bash tips "A previous backup already exists in refs/original/",
@@ -104,6 +104,8 @@ then
 fi
 ' --tag-name-filter cat -- --branches --tags
 ```
+
+在git仓库根目录下运行后，使用`git push -f`强制推送即可。
 
 ## 参考文档
 

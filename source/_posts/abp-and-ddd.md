@@ -110,18 +110,48 @@ DDD分层设计包含表现层(Presentation Layer)、应用层(Application Layer
 
 此外，ABP框架中test文件夹中还包含了每一层单独配置的单元/集成测试项目。
 
-### 实现细节
+### 安装配置
 
-[演示项目](https://github.com/Jocoboy/Jocoboy.ABPDemo)
+#### 安装cli
+
+使用donet tool命令行工具下载abp-cli(第一代)
+
+`dotnet tool install -g Volo.Abp.Cli`
+
+查看是否安装成功
+
+`dotnet tool list -g`
 
 #### 数据库迁移
 
-EFCore提供了一套原生的数据库迁移系统，基于Code First原则。在Domain层创建好相关实体后，打开Nuget Package Manager Console输入以下命令即可自动完成数据库迁移
+EFCore提供了一套原生的数据库迁移系统，基于Code First原则。
 
-`Add-Migration InitialCreate`
+在Domain层创建好相关实体后，将EntityFrameworkCore模块设为启动项目，打开Nuget Package Manager Console输入以下命令
+
+`Add-Migration "Initial"`
 
 `Update-Database`
 
+最后将DbMigrator模块设为启动项后，运行即可完成种子数据迁移
+
+### 相关问题
+
+#### PGSQL时间类型
+
+[PGSQL issues with 5.1.2 (and earlier, due to Npgsql 6+) #11437](https://github.com/abpframework/abp/issues/11437)
+
+> Cannot write DateTime with Kind=Local to PostgreSQL type 'timestamp with time zone', only UTC is supported.
+
+```c#
+...
+// adding the below to the WebModule, DbMigratorModule and TestBaseModule 
+// if postgres is used there as well
+Configure<AbpClockOptions>(options =>
+{
+    options.Kind = DateTimeKind.Utc;
+});
+...
+```
 
 ## 参考文档
 
