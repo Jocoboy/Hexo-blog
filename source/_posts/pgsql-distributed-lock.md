@@ -137,22 +137,22 @@ public interface IAdvisoryLock
     /// <summary>
     /// 对long类型的数值标识的锁进行会话级别的锁定
     /// </summary>
-    Task<ISessionLock> LockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellation = default);
+    Task<ISessionLock> LockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 对由两个int类型的数值标识的锁进行会话级别的锁定
     /// </summary>
-    Task<ISessionLock> LockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellation = default);
+    Task<ISessionLock> LockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 对long类型的数值标识的锁进行事务级别的锁定
     /// </summary>
-    Task<bool> XactLockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellation = default);
+    Task<bool> XactLockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 对由两个int类型的数值标识的锁进行事务级别的锁定
     /// </summary>
-    Task<bool> XactLockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellation = default);
+    Task<bool> XactLockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default);
 }
 ```
 
@@ -252,43 +252,43 @@ public class PGSQLAdvisoryLock : IAdvisoryLock, ISingletonDependency
         _dbContextProvider = dbContextProvider;
     }
 
-    public async Task<ISessionLock> LockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellation = default)
+    public async Task<ISessionLock> LockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default)
     {
         var database = (await _dbContextProvider.GetDbContextAsync()).Database;
 
-        var locked = await InternalLockAsync(new object[] { k }, lockMode, waiting, false, database, cancellation);
+        var locked = await InternalLockAsync(new object[] { k }, lockMode, waiting, false, database, cancellationToken);
 
         ISessionLock result = locked ? new PGSQLSessionLock(database, k, lockMode == LockMode.Shared) : null;
 
         return result;
     }
 
-    public async Task<ISessionLock> LockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellation = default)
+    public async Task<ISessionLock> LockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default)
     {
         var database = (await _dbContextProvider.GetDbContextAsync()).Database;
 
-        var locked = await InternalLockAsync(new object[] { m, n }, lockMode, waiting, false, database, cancellation);
+        var locked = await InternalLockAsync(new object[] { m, n }, lockMode, waiting, false, database, cancellationToken);
 
         ISessionLock result = locked ? new PGSQLSessionLock(database, m, n, lockMode == LockMode.Shared) : null;
 
         return result;
     }
 
-    public async Task<bool> XactLockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellation = default)
+    public async Task<bool> XactLockAsync(long k, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default)
     {
         var database = (await _dbContextProvider.GetDbContextAsync()).Database;
 
-        return await InternalLockAsync(new object[] { k }, lockMode, waiting, true, database, cancellation);
+        return await InternalLockAsync(new object[] { k }, lockMode, waiting, true, database, cancellationToken);
     }
 
-    public async Task<bool> XactLockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellation = default)
+    public async Task<bool> XactLockAsync(int m, int n, LockMode lockMode, bool waiting, CancellationToken cancellationToken = default)
     {
         var database = (await _dbContextProvider.GetDbContextAsync()).Database;
 
-        return await InternalLockAsync(new object[] { m, n }, lockMode, waiting, true, database, cancellation);
+        return await InternalLockAsync(new object[] { m, n }, lockMode, waiting, true, database, cancellationToken);
     }
 
-    private async Task<bool> InternalLockAsync(object[] parameters, LockMode lockMode, bool waiting, bool isXact, DatabaseFacade database, CancellationToken cancellation)
+    private async Task<bool> InternalLockAsync(object[] parameters, LockMode lockMode, bool waiting, bool isXact, DatabaseFacade database, CancellationToken cancellationToken)
     {
         bool locked;
 

@@ -241,6 +241,38 @@ FROM
     [table_a] 
 ```
 
+### 事务隔离级别
+
+PGSQL数据库事务的隔离级别有以下四种:
+- 读未提交(READ UNCOMMITTED)
+- 读已提交(READ COMMITTED)
+- 重复读(REPEATABLE READ)
+- 串行化(SERIALIZABLE)
+
+对于并发事务，我们不希望发生的行为如下：
+- 脏读：一个事务读取了另一个未提交的事务写入的数据
+- 重复读：一个事务重新读取前面读取过的数据时，发现该数据已改变
+- 幻读：当某个事务在读取某个范围内的记录时，另外一个事务中又在该范围插入了新的记录，当之前的事务再次读取该范围的记录时，会产生幻行
+
+对于不同事务隔离级别，脏读、重复读、幻读的可能性如下
+
+| ISOLATION LEVEL     | 脏读     | 重复读     |幻读
+| -------- | -------- | -------- | -------- |
+| READ UNCOMMITTED | YES | YES | YES |
+| READ COMMITTED | NO | YES | YES |
+| REPEATABLE READ | NO | NO | YES |
+| SERIALIZABLE | NO | NO | NO |
+
+```c#
+// ABP中配置数据库事务隔离级别为读已提交
+...
+Configure<AbpUnitOfWorkOptions>(options =>
+{
+    options.IsolationLevel = IsolationLevel.ReadCommitted;
+});
+...
+```
+
 ### 进程与会话
 
 查看进程
