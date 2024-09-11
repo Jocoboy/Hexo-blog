@@ -136,7 +136,7 @@ EFCore提供了一套原生的数据库迁移系统，基于Code First原则。
 
 ### 相关问题
 
-#### PGSQL时间类型
+#### PGSQL时间类型问题
 
 [PGSQL issues with 5.1.2 (and earlier, due to Npgsql 6+) #11437](https://github.com/abpframework/abp/issues/11437)
 
@@ -151,6 +151,25 @@ Configure<AbpClockOptions>(options =>
     options.Kind = DateTimeKind.Utc;
 });
 ...
+```
+
+#### Autofac依赖注入问题
+
+> Autofac.Core.DependencyResolutionException: 
+>An exception was thrown while activating xxxController -> xxxAppService.
+> ---> Autofac.Core.DependencyResolutionException: 
+>None of the constructors found on type 'xxxAppService' can be invoked with the available services and parameters:
+> Cannot resolve parameter 
+>'Microsoft.AspNetCore.Identity.SignInManager\`1\[Volo.Abp.Identity.IdentityUser] signInManager' of constructor
+> 'Void .ctor(Microsoft.AspNetCore.Identity.SignInManager`1[Volo.Abp.Identity.IdentityUser], ...)'.
+
+```c#
+// add AbpIdentityAspNetCoreModule to your WebModule,
+// be careful about the difference between Volo.Abp.Identity.AspNetCore and Microsoft.AspNetCore.Identity
+[DependsOn(
+    ...
+    typeof(AbpIdentityAspNetCoreModule)
+    )]
 ```
 
 ## 参考文档
